@@ -69,7 +69,7 @@ app.put('/:tipo/:id', (req, res) => {
         }        
 
         // Llamado de la funcion
-        subirPorTipo(tipo, id, path, res);
+        subirPorTipo(tipo, id, nombreArchivo, res);
 
     })
 });
@@ -91,8 +91,8 @@ function subirPorTipo(tipo, id, nombreArchivo, res){
             }
 
             // Si existe elimina la imagen anterior.
-            if ( fs.existsSync(usuario.img) ) {                                               
-                fs.unlinkSync(usuario.img)                
+            if ( fs.existsSync('./uploads/usuarios/'+usuario.img) ) {
+                fs.unlinkSync('./uploads/usuarios/'+usuario.img);
             }
 
             usuario.img = nombreArchivo;
@@ -130,8 +130,8 @@ function subirPorTipo(tipo, id, nombreArchivo, res){
             }
                                             
             // Si existe elimina la imagen anterior.
-            if ( fs.existsSync(medico.img) ) {                                               
-                fs.unlinkSync(medico.img)                
+            if ( fs.existsSync('./uploads/medicos/'+medico.img) ) {
+                fs.unlinkSync('./uploads/medicos/'+medico.img);
             }
 
             medico.img = nombreArchivo;
@@ -170,8 +170,8 @@ function subirPorTipo(tipo, id, nombreArchivo, res){
             }
                                             
             // Si existe elimina la imagen anterior.
-            if ( fs.existsSync(hospital.img) ) {                                               
-                fs.unlinkSync(hospital.img)                
+            if ( fs.existsSync('./uploads/hospital/'+hospital.img) ) {
+                fs.unlinkSync('./uploads/hospital/'+hospital.img);
             }
 
             hospital.img = nombreArchivo;

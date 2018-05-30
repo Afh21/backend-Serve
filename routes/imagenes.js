@@ -1,29 +1,29 @@
 var express = require('express');
 var app = express();
 var fs  = require('fs');
+var path = require('path');
 
 
 app.get('/:tipo/:img', (req, res, next) => {
 
     var tipo = req.params.tipo;
-    var img  = req.params.res;
+    var img  = req.params.img;
 
-    var path = `../uploads/${tipo}/${img}`;
+    var pathImg = `./uploads/${tipo}/${img}`;    
 
-    fs.exists(path, existe => {
-        if(!existe){
-            path = '../assets/ImgNoDisponible.png'
-        }
+    if( !fs.existsSync(pathImg) ) {
 
-        res.sendFile(path)
-    })
+        pathImg = './assets/ImgNoDisponible.png';        
+        return res.sendFile(path.resolve(pathImg));
+                                    
+    }
 
-    /*
-    res.status(200).json({
-        ok: true,
-        mensaje: 'Peticion exitosa!'
-    });    // Status 200 - Todo exitoso.
-    */
+    // res.sendFile( path.join('../uploads/'+tipo+'/'+img, { root: __dirname}) );        
+    // res.sendFile('./uploads/'+tipo+'/'+img, { root: path.join(__dirname, '../uploads') });
+    // res.sendFile(pathImg, { root: __dirname });
+    res.sendFile( path.resolve('uploads', tipo , img ));
+
+    
 });
 
 
