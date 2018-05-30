@@ -8,13 +8,17 @@ var app = express();
 
 var UsuarioModel = require('../models/usuario');  // Schema
 
-
 // ==========================
 // GET - Usuarios
 // ==========================
 app.get('/', (request, response, next) => {
 
+    var desde = request.query.desde || 0;
+    desde = Number(desde);
+
     UsuarioModel.find({}, 'nombre email img role')
+    .skip(desde)
+    .limit(5)
     .exec( 
 
         (err, usuarios) => {
@@ -29,11 +33,17 @@ app.get('/', (request, response, next) => {
 
             }
 
-            response.status(200).json({
-                ok: true,
-                mensaje: 'Get Usuarios!',
-                usuarios: usuarios
-            });    // Status 200 - Todo exitoso.
+            UsuarioModel.count({}, (err, conteo)=>{
+                
+                response.status(200).json({
+                    ok: true,
+                    mensaje: 'Get Usuarios!',                
+                    usuarios: usuarios,                    
+                    total:    conteo  
+                });    // Status 200 - Todo exitoso.
+
+             })
+
 
         });       
 });
